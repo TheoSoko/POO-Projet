@@ -9,21 +9,25 @@ class Hero extends Character{
         $this->setShieldValue($shieldValueDefault);
         parent::__construct($healthDefault, $rageDefault);
     }
+
+        //Attributs
+        private $weapon;
+        private $weaponDamage;
+        private $shield;
+        private $shieldValue;
+
+
     //Phrase sur les informations du héros
     public function sentenceHeroInfos(){
-        return 'Ton Héros utilise l\'arme ' . $this->getWeapon() . ', infligant ' . $this->getWeaponDamage() . ' de dégâts basiques. Il utilise
-        aussi l\'armure ' . $this->getShield() . ', qui encaisse' . $this->getShieldValue() . 'de dégâts à la place du héros' . 
-        'Il a ' . $this->getHealth() . ' points de vie, et ' . $this->getRage() . ' de rage. ';
+        return 'Ton Héros utilise ' . $this->getWeapon() . ' comme arme, infligeant ' . $this->getWeaponDamage() . ' de dégâts basiques. Il utilise
+        aussi ' . $this->getShield() . ' comme armure, qui encaisse ' . $this->getShieldValue() . ' de dégâts à sa place. ' . 
+        'Il possède ' . $this->getHealth() . ' points de vie, et ' . $this->getRage() . ' points de rage. ';
     } 
 
-    //Attributs
-    private $weapon;
-    private $weaponDamage;
-    private $shield;
-    private $shieldValue;
+
 
     // L'attribut weapon définit le nom de l'arme équipée
-    public function setWeapon(string $weaponChoice){
+    public function setWeapon(string $weaponChoice) : void{
         $this->weapon = $weaponChoice;
     }
     public function getWeapon():string{
@@ -31,18 +35,18 @@ class Hero extends Character{
     }
 
     // weaponDamage indique les dégâts basiques de l'arme, 
-    public function setWeaponDamage(int $number){
+    public function setWeaponDamage(int $number) : void{
         $this->weaponDamage = $number;
     }
     public function getWeaponDamage():int{
         return $this->weaponDamage;
     }
 
-    // shield définit le nom de l'armure équipée,
-    public function setShield(string $name){
-        $this->shield = $name;
+    // shield définit le nom de l'armure équipée.
+    public function setShield(string $shieldChoice) : void{
+        $this->shield = $shieldChoice;
     }
-    public function getShield():int{
+    public function getShield():string{
         return $this->shield;
     }
 
@@ -63,12 +67,29 @@ class Hero extends Character{
             $health = 0;
         }
         $this->setHealth($health);
+        $this->increaseRage();
         return $realDamage;
     }
 
-    //Pour chaque coup reçu, il faudra faire gagner de la rage à notre Héros. Créer une méthode permettant d’augmenter la valeur de rage de 30.
-    public function increaseRage(){
-        return $this->getRage() + 30;
+    //Méthode pour déterminer les dégâts qu'absorbe l'armure.
+    function shieldAbsorption(int $damageValue):int{
+        if ($damageValue < $this->shieldValue){
+            $shieldAbsorbed = $this->shieldValue;
+        } else {
+            $shieldAbsorbed = $this->shieldValue;
+        }
+        return $shieldAbsorbed;
     }
+
+
+
+    //Pour chaque coup reçu, il faudra faire gagner de la rage à notre Héros. Créer une méthode permettant d’augmenter la valeur de rage de 30.
+    private function increaseRage():int{
+        $rage = $this->getRage();
+        $rage += 15;
+        $this->setRage($rage);
+        return $rage;
+    }
+
 }
 
